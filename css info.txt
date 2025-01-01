@@ -1,0 +1,68 @@
+PS C:\Users\footb\Documents\3. GitHub\LinkStack-DEV> ls ./resources/css
+
+    Directory: C:\Users\footb\Documents\3. GitHub\LinkStack-DEV\resources\css
+
+Mode                 LastWriteTime         Length Name
+----                 -------------         ------ ----
+-a---            1/1/2025  1:02 PM             98 app.css
+-a---            1/1/2025  1:02 PM         155764 bootstrap.min.css
+
+PS C:\Users\footb\Documents\3. GitHub\LinkStack-DEV> ls ./assets/css
+
+    Directory: C:\Users\footb\Documents\3. GitHub\LinkStack-DEV\assets\css
+
+Mode                 LastWriteTime         Length Name
+----                 -------------         ------ ----
+d----            1/1/2025  1:02 PM                core
+d----            1/1/2025  1:02 PM                maps
+-a---            1/1/2025  1:02 PM         156121 bootstrap.min-dark.css
+-a---            1/1/2025  1:02 PM         155799 bootstrap.min.css
+-a---            1/1/2025  1:02 PM          10132 custom.min.css
+-a---            1/1/2025  1:02 PM          49267 customizer.css
+-a---            1/1/2025  1:02 PM          53020 customizer.min.css
+-a---            1/1/2025  1:02 PM          33471 dark.css
+-a---            1/1/2025  1:02 PM          28521 dark.min.css
+-a---            1/1/2025  1:02 PM         667099 hope-ui.css
+-a---            1/1/2025  1:02 PM         529982 hope-ui.min.css
+-a---            1/1/2025  1:02 PM          39239 rtl.css
+-a---            1/1/2025  1:02 PM          30645 rtl.min.css
+-a---            1/1/2025  1:02 PM         232161 style-dashboard-dark.css
+-a---            1/1/2025  1:02 PM         246284 style-dashboard.css
+
+Looking at the complete structure, I see this project uses a more complex setup than initially thought. Here's the key points:
+
+Core Theme System:
+
+
+The project uses Hope UI as its base theme (hope-ui.css)
+Has both light and dark themes (style-dashboard.css and style-dashboard-dark.css)
+Uses SCSS for source files (in /assets/scss/)
+
+
+Key Customization Files:
+
+
+/assets/scss/_variables.scss - This is likely the main source for theme variables
+customizer.css and custom.min.css - For custom overrides
+The LinkStack-specific styles in /assets/linkstack/css/
+
+
+Structure Hierarchy:
+
+
+SCSS source files in /assets/scss/
+Compiled CSS in /assets/css/
+LinkStack-specific styles in /assets/linkstack/css/
+Core utilities in /assets/scss/utilities/
+
+Before making changes, I recommend we:
+
+First check the contents of /assets/scss/_variables.scss as this is likely where the core theme variables are defined
+Then look at /assets/scss/sleek.scss which appears to be the main SCSS file
+Determine if the project uses a SCSS compiler (likely Laravel Mix/Vite)
+
+Would you like me to:
+
+Look at the contents of _variables.scss first?
+Check the build configuration to see how SCSS is compiled?
+Propose a specific strategy for making color changes?
