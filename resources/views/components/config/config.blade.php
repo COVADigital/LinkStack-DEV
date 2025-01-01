@@ -204,22 +204,22 @@ document.getElementById("'.$key.'-form").addEventListener("change", function() {
 
 
 <?php 
-function text($key){
-    $configValue = str_replace('"', "", EnvEditor::getKey($key));
-	echo '
+function text($key) {
+    $configValue = str_replace('"', "", EnvEditor::getKey($key) ?? '');
+    echo '
     <form id="'.$key.'-form" action="'.route('editConfig').'" enctype="multipart/form-data" method="post">
     <div class="form-group col-lg-8">
     <input value="text" name="type" style="display:none;" type="text" class="form-control form-control-lg" required>
     <input value="'.$key.'" name="entry" style="display:none;" type="text" class="form-control form-control-lg" required>
-	<h5 style="margin-top:50px">'; echo __('messages.'.$key.'.title'); echo '</h5>
+    <h5 style="margin-top:50px">'; echo __('messages.'.$key.'.title'); echo '</h5>
     <p class="text-muted">'; echo __('messages.'.$key.'.description'); echo '</p>
     <div class="input-group">
     <input type="text" class="form-control form-control-lg" style="border-radius:.25rem;max-width:600px" class="form-control" name="value" value="'.$configValue.'" required>';  echo '
     <input type="hidden" name="_token" value="'.csrf_token().'">
-	<button  type="submit" class="btn btn-primary">'.__('messages.Apply').'</button>
+    <button  type="submit" class="btn btn-primary">'.__('messages.Apply').'</button>
     </div></div>
     </form>
-	';
+    ';
 }
 ?>
 

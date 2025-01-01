@@ -3,7 +3,7 @@
 @section('content')
   @if (file_exists(base_path('backups/updater-backups/')) and is_dir(base_path('backups/updater-backups/')))
     <?php
-    $filename = $_SERVER['QUERY_STRING'];
+    $filename = request()->getQueryString() ?? '';
     
     $filepath = base_path('backups/updater-backups/') . $filename;
     

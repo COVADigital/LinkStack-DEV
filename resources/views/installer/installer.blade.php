@@ -4,7 +4,7 @@
 @Push('installer-body')
 <div class="container">
 
-@if($_SERVER['QUERY_STRING'] === '')
+@if(request()->getQueryString() ?? '' === '')
 {{-- Landing page --}}
 
 @if(!DB::table('users')->get()->isEmpty())
@@ -72,7 +72,7 @@
       
 @endif
 
-@if($_SERVER['QUERY_STRING'] === 'error')
+@if(request()->getQueryString() ?? '' === 'error')
 {{-- Landing page --}}
         
         <div class="logo-container fadein">
@@ -86,7 +86,7 @@
       
 @endif
 
-@if($_SERVER['QUERY_STRING'] === '2')
+@if(request()->getQueryString() ?? '' === '2')
 {{-- Landing page --}}
         
         <div class="logo-container fadein">
@@ -124,7 +124,7 @@
       
 @endif
 
-@if($_SERVER['QUERY_STRING'] === '3')
+@if(request()->getQueryString() ?? '' === '3')
 {{-- Landing page --}}
         
         <div class="logo-container fadein">
@@ -150,7 +150,7 @@
       
 @endif
 
-@if($_SERVER['QUERY_STRING'] === 'mysql')
+@if(request()->getQueryString() ?? '' === 'mysql')
 {{-- Landing page --}}
         
         <div class="logo-container fadein">
@@ -182,7 +182,7 @@
       
 @endif
 
-@if($_SERVER['QUERY_STRING'] === '4')
+@if(request()->getQueryString() ?? '' === '4')
 {{-- Landing page --}}
         
         <div class="logo-container fadein">
@@ -212,7 +212,7 @@
       
 @endif
 
-@if($_SERVER['QUERY_STRING'] === '5')
+@if(request()->getQueryString() ?? '' === '5')
 {{-- Landing page --}}
         
         <div class="logo-container fadein">

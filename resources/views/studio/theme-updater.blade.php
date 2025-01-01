@@ -4,90 +4,92 @@
 <br><br><br>
 <div class="accordion">
     <div class="accordion-item">
-      <h2 class="accordion-header" id="details-header">
-        <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#details-collapse" aria-controls="details-collapse">
-        {{__('messages.Theme Updater')}}
-        </button>
-      </h2>
-      <div id="details-collapse" class="accordion-collapse collapse" aria-labelledby="details-header">
-        <div class="accordion-body table-responsive">
-            <table class="table table-striped table-responsive">
+        <h2 class="accordion-header" id="details-header">
+            <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#details-collapse" aria-controls="details-collapse">
+                {{ __('messages.Theme Updater') }}
+            </button>
+        </h2>
+        <div id="details-collapse" class="accordion-collapse collapse" aria-labelledby="details-header">
+            <div class="accordion-body table-responsive">
+                <table class="table table-striped table-responsive">
                     <tr>
-                        <th>{{__('messages.Theme name')}}</th>
-                        <th>{{__('messages.Update status')}}</th>
-                        <th>{{__('messages.Version')}}&nbsp;</th>
+                        <th>{{ __('messages.Theme name') }}</th>
+                        <th>{{ __('messages.Update status') }}</th>
+                        <th>{{ __('messages.Version') }}&nbsp;</th>
                     </tr>
-                    <?php
-                    if ($handle = opendir('themes')) {
-                     while (false !== ($entry = readdir($handle))) {
-                            if(file_exists(base_path('themes') . '/' . $entry . '/readme.md')){
-                            $text = file_get_contents(base_path('themes') . '/' . $entry . '/readme.md');
-                            $pattern = '/Theme Version:.*/';
-                            preg_match($pattern, $text, $matches, PREG_OFFSET_CAPTURE);
-                            if(sizeof($matches) > 0) {
-                              $verNr = substr($matches[0][0],15);
+                    @php
+                        if ($handle = opendir(base_path('themes'))) {
+                            while (false !== ($entry = readdir($handle))) {
+                                if ($entry != "." && $entry != "..") {
+                                    $verNr = 'unknown';
+                                    $themeVe = null;
+                                    $hasSource = false;
+                                    $updateAv = false;
+
+                                    $readmePath = base_path("themes/{$entry}/readme.md");
+                                    if (file_exists($readmePath)) {
+                                        $text = file_get_contents($readmePath);
+                                        if (preg_match('/Theme Version:.*/', $text, $matches)) {
+                                            $verNr = isset($matches[0]) ? substr($matches[0], 15) : 'unknown';
+                                        }
+                                        $hasSource = strpos($text, 'Source code:') !== false;
+                                    }
+
+                                    if ($hasSource) {
+                                        $sourceURL = $matches[0] ?? '';
+                                        $replaced = str_replace("https://github.com/", "https://raw.githubusercontent.com/", trim($sourceURL));
+                                        $replaced .= "/main/readme.md";
+
+                                        if (strpos($sourceURL, 'github.com')) {
+                                            ini_set('user_agent', 'Mozilla/4.0 (compatible; MSIE 6.0)');
+                                            try {
+                                                $textGit = external_file_get_contents($replaced);
+                                                if (preg_match('/Theme Version:.*/', $textGit, $matches)) {
+                                                    $sourceURLGit = substr($matches[0], 15);
+                                                    $Vgitt = 'v' . ($sourceURLGit ?? '');
+                                                    $verNrv = 'v' . ($verNr ?? '');
+
+                                                    $updateAv = trim($Vgitt ?? '') > trim($verNrv ?? '');
+                                                    $GLOBALS['updateAv'] = $updateAv || $GLOBALS['updateAv'];
+                                                }
+                                            } catch (Exception $ex) {
+                                                error_log('Error fetching GitHub theme version: ' . $ex->getMessage());
+                                                $themeVe = "error";
+                                            }
+                                        } else {
+                                            $themeVe = "error";
+                                        }
+                                    }
+
+                                    echo '<tr>';
+                                    echo '<th>' . ucfirst($entry) . '</th>';
+                                    echo '<th><center>';
+                                    if ($themeVe === "error") {
+                                        echo '<span class="badge bg-danger">' . __('messages.Error') . '</span>';
+                                    } elseif (!$hasSource) {
+                                        echo '<a href="https://linkstack.org/themes.php" target="_blank"><span class="badge bg-danger">' . __('messages.Update manually') . '</span></a>';
+                                    } elseif ($updateAv) {
+                                        echo '<span class="badge bg-warning">' . __('messages.Update available') . '</span>';
+                                    } else {
+                                        echo '<span class="badge bg-success">' . __('messages.Up to date') . '</span>';
+                                    }
+                                    echo '</center></th>';
+                                    echo '<th>' . $verNr . '</th>';
+                                    echo '</tr>';
+                                }
                             }
-                          }
-                            $themeVe = NULL;
-                            if(!isset($verNr)){$verNr = "error";};
-                        if ($entry != "." && $entry != "..") {
-                            echo '<tr>';
-                            echo '<th>'; print_r(ucfirst($entry));
-                            echo '</th>';
-                            echo '<th><center>';
-                            if(file_exists(base_path('themes') . '/' . $entry . '/readme.md')){
-                              if(!strpos(file_get_contents(base_path('themes') . '/' . $entry . '/readme.md'), 'Source code:')){$hasSource = false;}else{
-                                $hasSource = true;
-                                $text = file_get_contents(base_path('themes') . '/' . $entry . '/readme.md');
-                                $pattern = '/Source code:.*/';
-                                preg_match($pattern, $text, $matches, PREG_OFFSET_CAPTURE);
-                                $sourceURL = substr($matches[0][0],13);
-                                $replaced = str_replace("https://github.com/", "https://raw.githubusercontent.com/", trim($sourceURL));
-                                $replaced = $replaced . "/main/readme.md";
-                                if (strpos($sourceURL, 'github.com')){
-                                ini_set('user_agent', 'Mozilla/4.0 (compatible; MSIE 6.0)');
-                                try{
-                                    $textGit = external_file_get_contents($replaced);
-                                    $patternGit = '/Theme Version:.*/';
-                                    preg_match($patternGit, $textGit, $matches, PREG_OFFSET_CAPTURE);
-                                    $sourceURLGit = substr($matches[0][0],15);
-                                    $Vgitt = 'v' . $sourceURLGit;
-                                    $verNrv = 'v' . $verNr;
-                                }catch(Exception $ex){
-                                    $themeVe = "error";
-                                    $Vgitt = NULL;
-                                    $verNrv = NULL;
-                                }
-                                if(trim($Vgitt) > trim($verNrv)){
-                                  $updateAv = true;
-                                  $GLOBALS['updateAv'] = true;
-                                } else {
-                                  $updateAv = false;
-                                }
-                                } else {$themeVe = "error";}
-                                }
-                              }
-                            if ($themeVe == "error") {
-                            echo '<span class="badge bg-danger">'.__('messages.Error').'</span>';
-                            } elseif ($hasSource == false) {
-                            echo '<a href="https://linkstack.org/themes.php" target="_blank"><span class="badge bg-danger">'.__('messages.Update manually').'</span></a>';
-                            } elseif($updateAv == true) {
-                            echo '<span class="badge bg-warning">'.__('messages.Update available').'</span>';
-                            } else {
-                            echo '<span class="badge bg-success">'.__('messages.Up to date').'</span>';
-                            }
-                            echo '</center></th>';
-                            echo '<th>' . $verNr . '</th>';
-                            echo '</tr>';}
-                            } } ?>
+                            closedir($handle);
+                        }
+                    @endphp
                 </table>
+            </div>
+            <a href="{{ url('update/theme') }}" onclick="updateicon()" class="btn btn-gray ms-3 mb-4">
+                <span id="updateicon"><i class="bi bi-arrow-repeat"></i></span> {{ __('messages.Update all themes') }}
+            </a>
         </div>
-        <a href="{{ url('update/theme') }}" onclick="updateicon()" class="btn btn-gray ms-3 mb-4">
-            <span id="updateicon"><i class="bi bi-arrow-repeat"></i></span> {{__('messages.Update all themes')}}
-        </a>
-      </div>
     </div>
-  </div>
+</div>
+
 
 <?php
 try{ if($GLOBALS['updateAv'] == true) echo '<p class="mt-3 ml-3 h2""><span class="badge bg-success">'.__('messages.Update available').'</span></p>';

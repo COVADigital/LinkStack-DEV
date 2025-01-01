@@ -29,7 +29,7 @@
 
     <div class="container">
         @if ((auth()->user()->role == 'admin' && $Vgit > $Vlocal) || $isBeta)
-            @if (empty($_SERVER['QUERY_STRING']))
+            @if (empty(request()->getQueryString() ?? ''))
                 <div class="logo-container fadein">
                     <img class="logo-img" src="{{ asset('assets/linkstack/images/logo.svg') }}" alt="Logo">
                 </div>
@@ -61,7 +61,7 @@
                 </div>
             @endif
 
-            @if ($_SERVER['QUERY_STRING'] === 'updating')
+            @if (request()->getQueryString() ?? '' === 'updating')
                 <div class="logo-container fadein">
                     <img class="logo-img" src="{{ asset('assets/linkstack/images/logo-loading.svg') }}" alt="Logo">
                 </div>
@@ -118,7 +118,7 @@
 
             @endif
 
-            @if ($_SERVER['QUERY_STRING'] === 'backup')
+            @if (request()->getQueryString() ?? '' === 'backup')
                 @push('updater-head')
                     <meta http-equiv="refresh" content="2; URL={{ url()->current() }}/?backups" />
                 @endpush
@@ -128,7 +128,7 @@
                 <h1 class="loadingtxt">{{ __('messages.Creating backup') }}</h1>
             @endif
 
-            @if ($_SERVER['QUERY_STRING'] === 'backups')
+            @if (request()->getQueryString() ?? '' === 'backups')
                 @php
                     set_time_limit(0);
                     // Test if the Artisan command is available
@@ -163,7 +163,7 @@
                 @endif
             @endif
 
-            @if ($_SERVER['QUERY_STRING'] === 'preparing')
+            @if (request()->getQueryString() ?? '' === 'preparing')
                 <div class="logo-container fadein">
                     <img class="logo-img" src="{{ asset('assets/linkstack/images/logo-loading.svg') }}" alt="Logo">
                 </div>
@@ -194,7 +194,7 @@
                 @endif
             @endif
 
-        @elseif(empty($_SERVER['QUERY_STRING']))
+        @elseif(empty(request()->getQueryString() ?? ''))
             <div class="logo-container fadein">
                 <img class="logo-img" src="{{ asset('assets/linkstack/images/logo.svg') }}" alt="Logo">
             </div>
@@ -208,7 +208,7 @@
             </div>
         @endif
 
-        @if ($_SERVER['QUERY_STRING'] === 'finishing')
+        @if (request()->getQueryString() ?? '' === 'finishing')
             @php
                 set_time_limit(0);
                 $debug = null;
@@ -256,7 +256,7 @@
             @endif
         @endif
 
-        @if ($_SERVER['QUERY_STRING'] === 'success')
+        @if (request()->getQueryString() ?? '' === 'success')
             <div class="logo-container fadein">
                 <img class="logo-img" src="{{ asset('assets/linkstack/images/logo.svg') }}" alt="Logo">
             </div>
@@ -289,7 +289,7 @@
             </div>
         @endif
 
-        @if ($_SERVER['QUERY_STRING'] === 'error')
+        @if (request()->getQueryString() ?? '' === 'error')
             <?php EnvEditor::editKey('MAINTENANCE_MODE', false); ?>
 
             <div class="logo-container fadein">
