@@ -9,38 +9,39 @@ $grid-breakpoints: (
 );
 
 // Colors
-$primary: #E63946 !default; // Vibrant Crimson Red
-$dark: #1D1D1F !default; // Deep Charcoal
-$secondary: #A8A8B3 !default; // Subtle Gray
+$primary: #1DB954 !default; // Spotify Green
+$dark: #121212 !default; // Spotify Dark
+$secondary: #282828 !default; // Spotify Gray
 $gray-100: #2E2E30 !default; // Slightly lighter gray
 $border-color: #4A4A4D !default; // Subtle Neutral Border
 $navy: #1A1B25 !default; // Darker Navy
-$pink: #FF5D8F !default; // Hot Pink
-$success: #37B24D !default; // Vibrant Green
+$pink: #FF5D8F !default; // Bright Pink
+$success: #29CC97 !default; // Vibrant Green
 $info: #4A90E2 !default; // Soft Blue
 $warning: #FFC107 !default; // Warm Yellow
 $danger: #F94144 !default; // Bold Red
-$inverse: #F5F5F5 !default; // Soft White
+$inverse: #FFFFFF !default; // Soft White for Contrast
 $purple: #9D4EDD !default; // Rich Purple
 $white: #FFFFFF !default; // Pure White
-$logo-fill-blue: #D7263D !default; // Deep Red for Branding
+$logo-fill-blue: #1DB954 !default; // Spotify Green for Logo
 
 $theme-colors: (
-  ("purple": $purple,
-  )
+  ("primary": $primary,
+    "dark": $dark,
+    "secondary": $secondary,
+    "text-primary": $white,
+    "text-secondary": $gray-100 )
 );
 
 // Body colors
-$body-color: $secondary !default;
+$body-color: $white !default; // White text for dark background
+$body-bg: $dark !default; // Dark background
 
 // Border radius
 $border-radius: .25rem !default;
 
-// Body
-$body-bg: $gray-100 !default;
-
 // Fonts
-$font-family-sans-roboto: 'Roboto', sans-serif !default;
+$font-family-sans-roboto: 'Arial', sans-serif !default;
 $font-family-matetial-icon: 'Material Design Icons' !default;
 $font-family-base: $font-family-sans-roboto !default;
 $font-family-icon: $font-family-matetial-icon !default;
@@ -48,7 +49,7 @@ $font-family-icon: $font-family-matetial-icon !default;
 $font-size-base: .875rem !default;
 $font-weight-medium: 500 !default;
 
-// Heading
+// Headings
 $headings-margin-bottom: 0 !default;
 $h1-font-size: $font-size-base * 2.86 !default;
 $h2-font-size: $font-size-base * 2.285 !default;
@@ -88,7 +89,6 @@ $breadcrumb-bg: transparent !default;
 $input-btn-padding-y: .59rem !default;
 $input-btn-padding-x: 1rem !default;
 $input-placeholder-color: rgba($secondary, .7) !default;
-
 $input-btn-padding-y-lg: .75rem !default;
 
 // Buttons
@@ -102,7 +102,7 @@ $pagination-padding-x: 1.25rem !default;
 $card-border-color: $border-color !default;
 
 // Table
-$table-dark-bg: $navy;
+$table-dark-bg: $secondary !default;
 
 // Modal
 $modal-sm: 400px !default;

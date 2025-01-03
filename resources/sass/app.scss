@@ -1,0 +1,14 @@
+// resources/sass/app.scss
+@import 'variables'; // Import your variables
+@import 'mixins';    // Import mixins
+@import 'components'; // Import custom component styles
+
+// TailwindCSS imports (optional)
+@import 'tailwindcss/base';
+@import 'tailwindcss/components';
+@import 'tailwindcss/utilities';
+
+// Custom styles
+body {
+    background-color: $body-bg; // Example using a variable
+}

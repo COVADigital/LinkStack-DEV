@@ -56,7 +56,8 @@ foreach($pages as $page)
                   <div class="col-lg-12">
                     <div class="form-group">
                       <label for="password" class="form-label">{{__('messages.Password')}}</label>
-                      <input type="password" class="form-control" id="password" aria-describedby="password" placeholder=" " name="password" required autocomplete="current-password" />
+                      <input type="password" class="form-control no-eye" id="password" aria-describedby="password" placeholder=" " name="password" required autocomplete="current-password">
+
                     </div>
                   </div>
                   <div class="col-lg-12 d-flex justify-content-between">
