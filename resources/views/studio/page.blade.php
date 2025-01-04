@@ -26,7 +26,7 @@
                 
                 </style>
                 <style>
-                    @supports (-webkit-appearance: none) or (-moz-appearance: none) {
+                    @@supports (-webkit-appearance: none) or (-moz-appearance: none) {
                       input[type=checkbox],
                       input[type=radio] {
                       --active: var(--bs-primary);

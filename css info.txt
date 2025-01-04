@@ -66,3 +66,203 @@ Would you like me to:
 Look at the contents of _variables.scss first?
 Check the build configuration to see how SCSS is compiled?
 Propose a specific strategy for making color changes?
+
+**************CSS Color Theme Ideas******************
+
+import React, { useState } from 'react';
+
+const ColorPalette = () => {
+  const [selectedTheme, setSelectedTheme] = useState('classicPro');
+
+  const themes = {
+    classicPro: {
+      name: "Classic Pro",
+      colors: {
+        primary: '#1DB954',
+        background: '#121212',
+        surface: '#282828',
+        text: '#B3B3B3',
+        textPrimary: '#FFFFFF'
+      },
+      buttonTextColor: '#FFFFFF'
+    },
+    electricBlue: {
+      name: "Electric Blue",
+      colors: {
+        primary: '#3B82F6',
+        background: '#0A1929',
+        surface: '#1E293B',
+        text: '#94A3B8',
+        textPrimary: '#FFFFFF'
+      },
+      buttonTextColor: '#FFFFFF'
+    },
+    purpleHaze: {
+      name: "Purple Haze",
+      colors: {
+        primary: '#8B5CF6',
+        background: '#13111C',
+        surface: '#1E1B2E',
+        text: '#A5A0B0',
+        textPrimary: '#FFFFFF'
+      },
+      buttonTextColor: '#FFFFFF'
+    },
+    neonNight: {
+      name: "Neon Night",
+      colors: {
+        primary: '#00FF9D',
+        background: '#0C0C14',
+        surface: '#1A1A2F',
+        text: '#9DABC0',
+        textPrimary: '#FFFFFF'
+      },
+      buttonTextColor: '#0C0C14'
+    },
+    oceanDeep: {
+      name: "Ocean Deep",
+      colors: {
+        primary: '#0EA5E9',
+        background: '#0F172A',
+        surface: '#1E293B',
+        text: '#94A3B8',
+        textPrimary: '#FFFFFF'
+      },
+      buttonTextColor: '#FFFFFF'
+    },
+    crimsonEdge: {
+      name: "Crimson Edge",
+      colors: {
+        primary: '#E11D48',
+        background: '#1A0F1F',
+        surface: '#2D1B2E',
+        text: '#A099A3',
+        textPrimary: '#FFFFFF'
+      },
+      buttonTextColor: '#FFFFFF'
+    }
+  };
+
+  // Generate CSS variables
+  const generateCSSVariables = (colors, theme) => {
+    return `
+:root {
+  --bs-primary: ${colors.primary};
+  --bs-primary-rgb: ${hexToRgb(colors.primary)};
+  --bs-body-bg: ${colors.background};
+  --bs-body-color: ${colors.text};
+  --bs-surface: ${colors.surface};
+  --bs-text-primary: ${colors.textPrimary};
+  --bs-button-text: ${themes[theme].buttonTextColor};
+}
+    `.trim();
+  };
+
+  // Helper function to convert hex to rgb
+  const hexToRgb = (hex) => {
+    const result = /^#?([a-f\d]{2})([a-f\d]{2})([a-f\d]{2})$/i.exec(hex);
+    return result ? 
+      `${parseInt(result[1], 16)}, ${parseInt(result[2], 16)}, ${parseInt(result[3], 16)}` : 
+      null;
+  };
+
+  return (
+    <div className="p-6">
+      <div className="max-w-6xl mx-auto">
+        <h2 className="text-2xl font-bold mb-6">Theme Variations</h2>
+        
+        {/* Theme Selector */}
+        <div className="flex flex-wrap gap-2 mb-8">
+          {Object.entries(themes).map(([key, theme]) => (
+            <button
+              key={key}
+              onClick={() => setSelectedTheme(key)}
+              className={`px-4 py-2 rounded ${
+                selectedTheme === key 
+                  ? 'bg-blue-500 text-white' 
+                  : 'bg-gray-200 text-gray-700'
+              }`}
+            >
+              {theme.name}
+            </button>
+          ))}
+        </div>
+
+        {/* Selected Theme Preview */}
+        <div className="grid grid-cols-1 md:grid-cols-2 gap-8 mb-8">
+          {/* Color Swatches */}
+          <div>
+            <h3 className="text-lg font-semibold mb-4">Color Palette</h3>
+            <div className="space-y-4">
+              {Object.entries(themes[selectedTheme].colors).map(([name, color]) => (
+                <div key={name} className="flex items-center gap-4">
+                  <div 
+                    className="w-16 h-16 rounded-lg shadow-sm" 
+                    style={{ backgroundColor: color }}
+                  />
+                  <div>
+                    <div className="font-medium capitalize">{name.replace(/([A-Z])/g, ' $1').trim()}</div>
+                    <div className="text-sm text-gray-500 uppercase">{color}</div>
+                  </div>
+                </div>
+              ))}
+            </div>
+          </div>
+
+          {/* CSS Variables */}
+          <div>
+            <h3 className="text-lg font-semibold mb-4">CSS Variables</h3>
+            <div className="bg-gray-100 p-4 rounded-lg">
+              <pre className="text-sm whitespace-pre-wrap">
+                {generateCSSVariables(themes[selectedTheme].colors, selectedTheme)}
+              </pre>
+            </div>
+          </div>
+        </div>
+
+        {/* Theme Preview */}
+        <div 
+          className="p-6 rounded-lg"
+          style={{ 
+            backgroundColor: themes[selectedTheme].colors.background,
+            color: themes[selectedTheme].colors.text
+          }}
+        >
+          <h3 
+            className="text-xl font-semibold mb-6"
+            style={{ color: themes[selectedTheme].colors.textPrimary }}
+          >
+            Theme Preview
+          </h3>
+          <div className="space-y-6">
+            <div className="space-y-3">
+              <button
+                className="px-6 py-2 rounded-full font-medium"
+                style={{ 
+                  backgroundColor: themes[selectedTheme].colors.primary,
+                  color: themes[selectedTheme].buttonTextColor
+                }}
+              >
+                Primary Button
+              </button>
+            </div>
+            <div 
+              className="p-4 rounded-lg"
+              style={{ backgroundColor: themes[selectedTheme].colors.surface }}
+            >
+              Surface Container
+            </div>
+            <div className="space-y-2">
+              <p style={{ color: themes[selectedTheme].colors.textPrimary }}>
+                Primary Text Example
+              </p>
+              <p>Secondary Text Example</p>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  );
+};
+
+export default ColorPalette;
