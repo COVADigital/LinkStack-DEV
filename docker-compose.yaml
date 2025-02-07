@@ -10,7 +10,7 @@ services:
     volumes:
       - linkstack_data:/htdocs
     ports:
-      - 443:443 
+      - 8443:443 
     restart: unless-stopped
     networks:
       - coolify 
