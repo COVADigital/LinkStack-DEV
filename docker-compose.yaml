@@ -12,6 +12,8 @@ services:
     ports:
       - 8443:443 
     restart: unless-stopped
+    networks:
+      - coolify 
    
 volumes:
   linkstack_data:
