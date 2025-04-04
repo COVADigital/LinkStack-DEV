@@ -21,6 +21,7 @@ services:
       - traefik.http.routers.linkstack.tls=true
       - traefik.http.routers.linkstack.tls.certresolver=letsencrypt
       - traefik.http.services.linkstack.loadbalancer.server.port=80
+      - traefik.http.routers.linkstack.service=linkstack
 
 volumes:
   linkstack_data:
