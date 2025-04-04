@@ -1,3 +1,5 @@
+version: "3.8"
+
 services:
   linkstack:
     hostname: linkstack
@@ -9,12 +11,17 @@ services:
       - UPLOAD_MAX_FILESIZE=${UPLOAD_MAX_FILESIZE:-8M}
     volumes:
       - linkstack_data:/htdocs
-    ports:
-      - 8443:443 
     restart: unless-stopped
     networks:
-      - coolify 
-   
+      - coolify
+    labels:
+      - traefik.enable=true
+      - traefik.http.routers.linkstack.rule=Host(`link.app.covadigital.io`)
+      - traefik.http.routers.linkstack.entrypoints=websecure
+      - traefik.http.routers.linkstack.tls=true
+      - traefik.http.routers.linkstack.tls.certresolver=letsencrypt
+      - traefik.http.services.linkstack.loadbalancer.server.port=443
+
 volumes:
   linkstack_data:
 
